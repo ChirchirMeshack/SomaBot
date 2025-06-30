@@ -18,6 +18,11 @@ pnpm-lock.yaml
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+logs
 
 # TypeScript cache
 *.tsbuildinfo
+
+#environment variables
+*.env
+!.env.example
