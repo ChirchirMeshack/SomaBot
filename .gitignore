@@ -1,0 +1,23 @@
+# Node modules and build output
+node_modules/
+dist/
+
+# Dependency lock files
+package-lock.json
+pnpm-lock.yaml
+
+# Editor and system files
+*.swp
+*.swo
+*.DS_Store
+.vscode/
+.idea/
+.cursor
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript cache
+*.tsbuildinfo
