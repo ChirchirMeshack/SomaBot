@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import LessonModel from '../models/Lesson';
+import * as lessonService from '../services/lessonService';
+import { formatLessonForWhatsApp } from '../services/whatsappService';
 
 const router = Router();
 
@@ -70,6 +72,37 @@ router.delete('/:id', async (req, res) => {
     res.json({ status: 'ok', message: 'Lesson deleted' });
   } catch (err) {
     res.status(500).json({ status: 'error', message: 'Failed to delete lesson' });
+  }
+});
+
+/**
+ * Get the next lesson for a user in a course
+ */
+router.get('/next/:user_id/:course_id', async (req, res) => {
+  try {
+    const nextLesson = await lessonService.getNextLesson(Number(req.params.user_id), Number(req.params.course_id));
+    if (!nextLesson) {
+      return res.status(404).json({ status: 'error', message: 'No next lesson found (all completed?)' });
+    }
+    res.json({ status: 'ok', nextLesson });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to get next lesson' });
+  }
+});
+
+/**
+ * Format a lesson for WhatsApp delivery
+ */
+router.get('/format/:id', async (req, res) => {
+  try {
+    const lesson = await LessonModel.getLessonById(Number(req.params.id));
+    if (!lesson) {
+      return res.status(404).json({ status: 'error', message: 'Lesson not found' });
+    }
+    const formatted = formatLessonForWhatsApp(lesson);
+    res.json({ status: 'ok', formatted });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to format lesson' });
   }
 });
 

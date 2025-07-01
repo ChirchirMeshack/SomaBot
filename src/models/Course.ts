@@ -59,4 +59,6 @@ export default class CourseModel {
     const result = await pool.query('DELETE FROM courses WHERE id = $1', [id]);
     return (result.rowCount ?? 0) > 0;
   }
-} 
+}
+
+export { pool }; 
