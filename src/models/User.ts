@@ -59,4 +59,12 @@ export default class UserModel {
     const result = await pool.query('DELETE FROM users WHERE id = $1', [id]);
     return (result.rowCount ?? 0) > 0;
   }
+
+  /**
+   * Get a user by phone number
+   */
+  static async getUserByPhone(phone: string): Promise<User | null> {
+    const result = await pool.query('SELECT * FROM users WHERE phone = $1', [phone]);
+    return result.rows[0] || null;
+  }
 } 
