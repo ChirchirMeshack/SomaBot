@@ -12,6 +12,7 @@ import adminRouter from './routes/admin';
 import usersRouter from './routes/users';
 import lessonsRouter from './routes/lessons';
 import limiter from './middleware/rateLimiter';
+import quizzesRouter from './routes/quizzes';
 
 if (!process.env.TWILIO_ACCOUNT_SID) {
   logger.error('Error: TWILIO_ACCOUNT_SID is required in your environment variables.');
@@ -65,6 +66,7 @@ app.use('/bot', botRouter);
 app.use('/admin', adminRouter);
 app.use('/users', usersRouter);
 app.use('/lessons', lessonsRouter);
+app.use('/quizzes', quizzesRouter);
 
 app.use(limiter);
 

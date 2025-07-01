@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS quiz_schedule (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  quiz_id INTEGER REFERENCES quizzes(id) ON DELETE CASCADE,
+  scheduled_time TIMESTAMP NOT NULL,
+  delivered BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMP DEFAULT NOW()
+); 

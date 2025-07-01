@@ -1,0 +1,1 @@
+ALTER TABLE quizzes ADD COLUMN IF NOT EXISTS difficulty VARCHAR(10) DEFAULT 'medium'; 
