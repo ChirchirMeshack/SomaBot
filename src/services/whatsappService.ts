@@ -2,6 +2,21 @@
  * WhatsApp Service - formats messages and mocks sending
  */
 
+import dotenv from 'dotenv';
+dotenv.config();
+
+let twilioClient: any = null;
+const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID;
+const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN;
+const TWILIO_WHATSAPP_FROM = process.env.TWILIO_WHATSAPP_FROM;
+
+if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN) {
+  // Dynamically require to avoid breaking tests if not installed
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const twilio = require('twilio');
+  twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
+}
+
 export interface WhatsAppMessage {
   to: string;
   body: string;
@@ -22,14 +37,19 @@ export function formatMessage(to: string, body: string): WhatsAppMessage {
  * @param message - WhatsAppMessage object
  * @returns Promise resolving to a mock success response
  */
-export async function sendMessage(message: WhatsAppMessage): Promise<{ status: string; to: string; body: string }> {
-  // Simulate async operation
-  await new Promise((resolve) => setTimeout(resolve, 100));
-  return {
-    status: 'sent',
-    to: message.to,
-    body: message.body
-  };
+export async function sendMessage(msg: { to: string; body: string }) {
+  if (twilioClient && TWILIO_WHATSAPP_FROM) {
+    // Use Twilio API
+    return twilioClient.messages.create({
+      from: `whatsapp:${TWILIO_WHATSAPP_FROM}`,
+      to: `whatsapp:${msg.to}`,
+      body: msg.body
+    });
+  } else {
+    // Fallback to mock
+    console.log('[MOCK WHATSAPP SEND]', msg);
+    return { status: 'mock', ...msg };
+  }
 }
 
 /**

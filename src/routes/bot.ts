@@ -76,4 +76,19 @@ router.post('/session/get', async (req, res) => {
   }
 });
 
+// Test WhatsApp outbound message
+router.post('/send-test-whatsapp', async (req, res) => {
+  const { to, body } = req.body;
+  if (!to || !body) {
+    return res.status(400).json({ status: 'error', message: 'to and body required' });
+  }
+  try {
+    const result = await sendMessage(formatMessage(to, body));
+    res.json({ status: 'ok', result });
+  } catch (err) {
+    console.error('Twilio send error:', err); // <-- Add this line
+    res.status(500).json({ status: 'error', message: 'Failed to send WhatsApp message' });
+  }
+});
+
 export default router; 
