@@ -5,6 +5,23 @@ import LessonModel from '../models/Lesson';
 const router = Router();
 
 /**
+ * Create a new course
+ * Expects { title, description, category, difficulty } in the request body
+ */
+router.post('/', async (req, res) => {
+  try {
+    const { title, description, category, difficulty } = req.body;
+    if (!title) {
+      return res.status(400).json({ status: 'error', message: 'title is required' });
+    }
+    const course = await CourseModel.createCourse({ title, description, category, difficulty });
+    res.json({ status: 'ok', course });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to create course' });
+  }
+});
+
+/**
  * List all courses, with optional filtering by category and difficulty
  * Query params: category, difficulty
  */

@@ -22,9 +22,6 @@ export default class QuizModel {
        RETURNING *`,
       [quiz.lesson_id, quiz.question, JSON.stringify(quiz.options), quiz.correct_answer, quiz.explanation || null, quiz.difficulty || 'medium']
     );
-    if (result.rows[0]) {
-      result.rows[0].options = JSON.parse(result.rows[0].options);
-    }
     return result.rows[0];
   }
 
@@ -33,9 +30,6 @@ export default class QuizModel {
    */
   static async getQuizById(id: number): Promise<Quiz | null> {
     const result = await pool.query('SELECT * FROM quizzes WHERE id = $1', [id]);
-    if (result.rows[0]) {
-      result.rows[0].options = JSON.parse(result.rows[0].options);
-    }
     return result.rows[0] || null;
   }
 
@@ -44,7 +38,7 @@ export default class QuizModel {
    */
   static async getQuizzesByLesson(lesson_id: number): Promise<Quiz[]> {
     const result = await pool.query('SELECT * FROM quizzes WHERE lesson_id = $1', [lesson_id]);
-    return result.rows.map(row => ({ ...row, options: JSON.parse(row.options) }));
+    return result.rows;
   }
 
   /**
@@ -70,9 +64,6 @@ export default class QuizModel {
       `UPDATE quizzes SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`,
       values
     );
-    if (result.rows[0]) {
-      result.rows[0].options = JSON.parse(result.rows[0].options);
-    }
     return result.rows[0] || null;
   }
 

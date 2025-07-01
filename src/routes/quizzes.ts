@@ -42,7 +42,9 @@ router.get('/lesson/:lesson_id', async (req, res) => {
     const quizzes = await QuizModel.getQuizzesByLesson(Number(req.params.lesson_id));
     res.json({ status: 'ok', quizzes });
   } catch (err) {
-    res.status(500).json({ status: 'error', message: 'Failed to get quizzes' });
+    const error = err as Error;
+    console.error('Quiz creation error:', error);
+    res.status(500).json({ status: 'error', message: error.message, stack: error.stack });
   }
 });
 
