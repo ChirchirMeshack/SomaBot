@@ -1,0 +1,299 @@
+{
+  "info": {
+    "_postman_id": "soma-bot-collection-001",
+    "name": "SomaBot API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Bot & Session",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"phone\": \"+12345678901\"}" },
+            "url": { "raw": "http://localhost:3000/bot/register", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["bot", "register"] }
+          }
+        },
+        {
+          "name": "Set Session",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"phone\": \"+12345678901\", \"data\": {\"step\": \"welcome\"}}" },
+            "url": { "raw": "http://localhost:3000/bot/session", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["bot", "session"] }
+          }
+        },
+        {
+          "name": "Get Session",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"phone\": \"+12345678901\"}" },
+            "url": { "raw": "http://localhost:3000/bot/session/get", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["bot", "session", "get"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Set Preferences",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"phone\": \"+12345678901\", \"preferences\": {\"language\": \"en\", \"reminderTime\": \"09:00\"}}" },
+            "url": { "raw": "http://localhost:3000/users/preferences", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "preferences"] }
+          }
+        },
+        {
+          "name": "Get Preferences",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/users/preferences/:phone", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "preferences", ":phone"] }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/users/profile/:phone", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "profile", ":phone"] }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"name\": \"New Name\", \"subscription_tier\": \"premium\"}" },
+            "url": { "raw": "http://localhost:3000/users/profile/:phone", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "profile", ":phone"] }
+          }
+        },
+        {
+          "name": "Get Status",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/users/status/:phone", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "status", ":phone"] }
+          }
+        },
+        {
+          "name": "Set Status",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"phone\": \"+12345678901\", \"status\": \"active\"}" },
+            "url": { "raw": "http://localhost:3000/users/status", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "status"] }
+          }
+        },
+        {
+          "name": "Search Users",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/users/search?phone=123&name=John&status=active&limit=10&offset=0", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "search"], "query": [
+              { "key": "phone", "value": "123" },
+              { "key": "name", "value": "John" },
+              { "key": "status", "value": "active" },
+              { "key": "limit", "value": "10" },
+              { "key": "offset", "value": "0" }
+            ] }
+          }
+        },
+        {
+          "name": "Log Activity",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"user_id\": 1, \"action\": \"login\", \"metadata\": {\"ip\": \"127.0.0.1\"}}" },
+            "url": { "raw": "http://localhost:3000/users/activity", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "activity"] }
+          }
+        },
+        {
+          "name": "Get Activity",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/users/activity/:user_id?from=2024-07-01T00:00:00Z&to=2024-07-02T00:00:00Z", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "activity", ":user_id"], "query": [
+              { "key": "from", "value": "2024-07-01T00:00:00Z" },
+              { "key": "to", "value": "2024-07-02T00:00:00Z" }
+            ] }
+          }
+        },
+        {
+          "name": "Export User Data",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/users/export/:phone", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["users", "export", ":phone"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"username\": \"admin\", \"password\": \"password123\"}" },
+            "url": { "raw": "http://localhost:3000/admin/login", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["admin", "login"] }
+          }
+        },
+        {
+          "name": "Admin Protected",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer <token>" } ],
+            "url": { "raw": "http://localhost:3000/admin/protected", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["admin", "protected"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Course Management",
+      "item": [
+        {
+          "name": "List Courses",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/courses", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["courses"] }
+          }
+        },
+        {
+          "name": "Get Course Details",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/courses/:id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["courses", ":id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lesson Management",
+      "item": [
+        {
+          "name": "Create Lesson",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"course_id\": 1, \"title\": \"Lesson 1\", \"content\": \"Text...\", \"lesson_order\": 1, \"media_url\": \"http://...\"}" },
+            "url": { "raw": "http://localhost:3000/lessons", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons"] }
+          }
+        },
+        {
+          "name": "Get Lesson",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/:id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", ":id"] }
+          }
+        },
+        {
+          "name": "Get Lessons by Course",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/course/:course_id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "course", ":course_id"] }
+          }
+        },
+        {
+          "name": "Update Lesson",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"title\": \"Updated Title\"}" },
+            "url": { "raw": "http://localhost:3000/lessons/:id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", ":id"] }
+          }
+        },
+        {
+          "name": "Delete Lesson",
+          "request": {
+            "method": "DELETE",
+            "url": { "raw": "http://localhost:3000/lessons/:id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", ":id"] }
+          }
+        },
+        {
+          "name": "Format Lesson for WhatsApp",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/format/:id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "format", ":id"] }
+          }
+        },
+        {
+          "name": "Schedule Lesson",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"user_id\": 1, \"lesson_id\": 1, \"scheduled_time\": \"2024-07-01T09:00:00Z\", \"timezone\": \"UTC\"}" },
+            "url": { "raw": "http://localhost:3000/lessons/schedule", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "schedule"] }
+          }
+        },
+        {
+          "name": "Get Scheduled Lessons",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/schedule/:user_id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "schedule", ":user_id"] }
+          }
+        },
+        {
+          "name": "Deliver Lesson",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"user_id\": 1, \"lesson_id\": 1}" },
+            "url": { "raw": "http://localhost:3000/lessons/deliver", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "deliver"] }
+          }
+        },
+        {
+          "name": "Complete Lesson",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\"user_id\": 1, \"lesson_id\": 1, \"course_id\": 1, \"score\": 100}" },
+            "url": { "raw": "http://localhost:3000/lessons/complete", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "complete"] }
+          }
+        },
+        {
+          "name": "Get User Progress",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/progress/:user_id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "progress", ":user_id"] }
+          }
+        },
+        {
+          "name": "Get Next Lesson",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/next/:user_id/:course_id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "next", ":user_id", ":course_id"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lesson Analytics",
+      "item": [
+        {
+          "name": "Lesson Completion Count",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/analytics/completions", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "analytics", "completions"] }
+          }
+        },
+        {
+          "name": "Popular Lessons",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/analytics/popular?limit=5", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "analytics", "popular"], "query": [ { "key": "limit", "value": "5" } ] }
+          }
+        },
+        {
+          "name": "User Engagement",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:3000/lessons/analytics/user/:user_id", "protocol": "http", "host": ["localhost"], "port": "3000", "path": ["lessons", "analytics", "user", ":user_id"] }
+          }
+        }
+      ]
+    }
+  ]
+} 

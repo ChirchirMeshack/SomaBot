@@ -3,6 +3,8 @@ import LessonModel from '../models/Lesson';
 import * as lessonService from '../services/lessonService';
 import { formatLessonForWhatsApp } from '../services/whatsappService';
 import LessonScheduleModel from '../models/LessonSchedule';
+import ProgressModel from '../models/Progress';
+import pool from '../utils/database';
 
 const router = Router();
 
@@ -146,6 +148,87 @@ router.post('/deliver', async (req, res) => {
     res.json(result);
   } catch (err) {
     res.status(500).json({ status: 'error', message: 'Failed to deliver lesson' });
+  }
+});
+
+/**
+ * Mark a lesson as completed for a user
+ * Expects { user_id, lesson_id, course_id, score } in the request body
+ */
+router.post('/complete', async (req, res) => {
+  try {
+    const progress = await ProgressModel.completeLesson(req.body);
+    res.json({ status: 'ok', progress });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to mark lesson as completed' });
+  }
+});
+
+/**
+ * Get all progress for a user
+ */
+router.get('/progress/:user_id', async (req, res) => {
+  try {
+    const progress = await ProgressModel.getUserProgress(Number(req.params.user_id));
+    res.json({ status: 'ok', progress });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to get user progress' });
+  }
+});
+
+/**
+ * Get lesson completion count for all lessons
+ */
+router.get('/analytics/completions', async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT lesson_id, COUNT(*) as completions
+       FROM progress
+       GROUP BY lesson_id
+       ORDER BY completions DESC`
+    );
+    res.json({ status: 'ok', completions: result.rows });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to get completions analytics' });
+  }
+});
+
+/**
+ * Get most popular lessons (by completions)
+ * Optional query param: limit
+ */
+router.get('/analytics/popular', async (req, res) => {
+  const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 5;
+  try {
+    const result = await pool.query(
+      `SELECT lesson_id, COUNT(*) as completions
+       FROM progress
+       GROUP BY lesson_id
+       ORDER BY completions DESC
+       LIMIT $1`,
+      [limit]
+    );
+    res.json({ status: 'ok', popular: result.rows });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to get popular lessons' });
+  }
+});
+
+/**
+ * Get user engagement (lessons completed per user)
+ */
+router.get('/analytics/user/:user_id', async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT user_id, COUNT(*) as lessons_completed
+       FROM progress
+       WHERE user_id = $1
+       GROUP BY user_id`,
+      [Number(req.params.user_id)]
+    );
+    res.json({ status: 'ok', engagement: result.rows[0] || { user_id: req.params.user_id, lessons_completed: 0 } });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to get user engagement' });
   }
 });
 
