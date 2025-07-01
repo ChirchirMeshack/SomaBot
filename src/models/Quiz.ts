@@ -74,4 +74,9 @@ export default class QuizModel {
     const result = await pool.query('DELETE FROM quizzes WHERE id = $1', [id]);
     return (result.rowCount ?? 0) > 0;
   }
+
+  static async getAllQuizzes() {
+    const result = await pool.query('SELECT * FROM quizzes ORDER BY id');
+    return result.rows;
+  }
 } 

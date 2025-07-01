@@ -14,6 +14,8 @@ import lessonsRouter from './routes/lessons';
 import limiter from './middleware/rateLimiter';
 import quizzesRouter from './routes/quizzes';
 import coursesRouter from './routes/courses';
+import badgesRouter from './routes/badges';
+import leaderboardRouter from './routes/leaderboard';
 
 if (!process.env.TWILIO_ACCOUNT_SID) {
   logger.error('Error: TWILIO_ACCOUNT_SID is required in your environment variables.');
@@ -69,6 +71,8 @@ app.use('/users', usersRouter);
 app.use('/courses', coursesRouter);
 app.use('/lessons', lessonsRouter);
 app.use('/quizzes', quizzesRouter);
+app.use('/badges', badgesRouter);
+app.use('/leaderboard', leaderboardRouter);
 
 app.use(limiter);
 

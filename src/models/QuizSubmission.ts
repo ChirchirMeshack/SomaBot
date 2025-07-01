@@ -34,6 +34,22 @@ export default class QuizSubmissionModel {
     );
     return result.rows;
   }
+
+  /**
+   * Get top users by total correct quiz answers (leaderboard)
+   */
+  static async getTopQuizScores(limit = 10): Promise<any[]> {
+    const result = await pool.query(
+      `SELECT user_id, COUNT(*) as correct_answers
+       FROM quiz_submissions
+       WHERE is_correct = true
+       GROUP BY user_id
+       ORDER BY correct_answers DESC
+       LIMIT $1`,
+      [limit]
+    );
+    return result.rows;
+  }
 }
 
 export { pool }; 

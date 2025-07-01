@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import UserModel from '../models/User';
 import UserActivityModel from '../models/UserActivity';
+import { generateProgressChartImage } from '../services/progressChartService';
+import { formatMessage, sendMessage } from '../services/whatsappService';
 const router = Router();
 
 router.get('/ping', (req, res) => {
@@ -203,6 +205,30 @@ router.get('/export/:phone', async (req, res) => {
     res.send(JSON.stringify(exportData, null, 2));
   } catch (err) {
     res.status(500).json({ status: 'error', message: 'Failed to export user data' });
+  }
+});
+
+/**
+ * Generate and send a progress visualization to a user via WhatsApp (mocked)
+ * Expects { user_id } in the request body
+ */
+router.post('/progress/visualize', async (req, res) => {
+  try {
+    const { user_id } = req.body;
+    if (!user_id) {
+      return res.status(400).json({ status: 'error', message: 'user_id is required' });
+    }
+    const user = await UserModel.getUserById(user_id);
+    if (!user || !user.phone) {
+      return res.status(404).json({ status: 'error', message: 'User not found' });
+    }
+    const imageUrl = await generateProgressChartImage(user_id);
+    const body = `Here is your progress chart: ${imageUrl}`;
+    const msg = formatMessage(user.phone, body);
+    await sendMessage(msg);
+    res.json({ status: 'ok', message: 'Progress chart sent', imageUrl });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to send progress chart' });
   }
 });
 

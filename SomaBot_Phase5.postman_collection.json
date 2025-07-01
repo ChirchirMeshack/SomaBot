@@ -1,0 +1,181 @@
+{
+  "info": {
+    "name": "SomaBot Phase 5 - Progress & Gamification",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Endpoints for progress tracking, gamification, analytics, and social features (Phase 5)"
+  },
+  "item": [
+    {
+      "name": "Progress Tracking",
+      "item": [
+        {
+          "name": "Mark Lesson Complete",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:3000/lessons/complete", "host": ["http://localhost:3000"], "path": ["lessons", "complete"]},
+            "body": {"mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"lesson_id\": 2,\n  \"course_id\": 1,\n  \"score\": 90\n}"}
+          }
+        },
+        {
+          "name": "Get User Progress",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "http://localhost:3000/lessons/progress/1", "host": ["http://localhost:3000"], "path": ["lessons", "progress", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Streaks & Badges",
+      "item": [
+        {
+          "name": "Get User Streaks (Leaderboard)",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "http://localhost:3000/leaderboard/streaks", "host": ["http://localhost:3000"], "path": ["leaderboard", "streaks"]}
+          }
+        },
+        {
+          "name": "Get User Badges",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "http://localhost:3000/badges/user/1", "host": ["http://localhost:3000"], "path": ["badges", "user", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Badge Notifications & Sharing",
+      "item": [
+        {
+          "name": "Share Badge",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:3000/share/badge", "host": ["http://localhost:3000"], "path": ["share", "badge"]},
+            "body": {"mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"badge_id\": 2\n}"}
+          }
+        },
+        {
+          "name": "Invite Friend",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:3000/share/invite", "host": ["http://localhost:3000"], "path": ["share", "invite"]},
+            "body": {"mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"friend_phone\": \"+1234567890\"\n}"}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Progress Visualization",
+      "item": [
+        {
+          "name": "Get Progress Chart",
+          "request": {
+            "method": "GET",
+            "url": {"raw": "http://localhost:3000/progress/chart/1", "host": ["http://localhost:3000"], "path": ["progress", "chart", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Leaderboards",
+      "item": [
+        {
+          "name": "Top Streaks",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/leaderboard/streaks", "host": ["http://localhost:3000"], "path": ["leaderboard", "streaks"]}}
+        },
+        {
+          "name": "Top Completions",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/leaderboard/completions", "host": ["http://localhost:3000"], "path": ["leaderboard", "completions"]}}
+        },
+        {
+          "name": "Top Quiz Scores",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/leaderboard/quiz-scores", "host": ["http://localhost:3000"], "path": ["leaderboard", "quiz-scores"]}}
+        }
+      ]
+    },
+    {
+      "name": "Milestone Celebrations",
+      "item": [
+        {
+          "name": "Trigger Milestone (Complete Lesson)",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:3000/lessons/complete", "host": ["http://localhost:3000"], "path": ["lessons", "complete"]},
+            "body": {"mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"lesson_id\": 2,\n  \"course_id\": 1,\n  \"score\": 100\n}"}
+          }
+        }
+      ]
+    },
+    {
+      "name": "Progress Analytics & Recommendations",
+      "item": [
+        {
+          "name": "Progress Patterns",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/analytics/progress/patterns", "host": ["http://localhost:3000"], "path": ["analytics", "progress", "patterns"]}}
+        },
+        {
+          "name": "Retention Rates",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/analytics/progress/retention", "host": ["http://localhost:3000"], "path": ["analytics", "progress", "retention"]}}
+        },
+        {
+          "name": "Progress Recommendation",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/analytics/recommendation/1", "host": ["http://localhost:3000"], "path": ["analytics", "recommendation", "1"]}}
+        }
+      ]
+    },
+    {
+      "name": "Challenges",
+      "item": [
+        {
+          "name": "Opt-in to Challenge",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:3000/challenges/opt-in", "host": ["http://localhost:3000"], "path": ["challenges", "opt-in"]},
+            "body": {"mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"challenge_id\": 1\n}"}
+          }
+        },
+        {
+          "name": "Get User Challenge Status",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/challenges/status/1", "host": ["http://localhost:3000"], "path": ["challenges", "status", "1"]}}
+        }
+      ]
+    },
+    {
+      "name": "Groups",
+      "item": [
+        {
+          "name": "Create Group",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:3000/groups/create", "host": ["http://localhost:3000"], "path": ["groups", "create"]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"Study Buddies\",\n  \"description\": \"Peer learning group\"\n}"}
+          }
+        },
+        {
+          "name": "Join Group",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:3000/groups/join", "host": ["http://localhost:3000"], "path": ["groups", "join"]},
+            "body": {"mode": "raw", "raw": "{\n  \"user_id\": 1,\n  \"code\": \"ABC123\"\n}"}
+          }
+        },
+        {
+          "name": "List User's Groups",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/groups/list/1", "host": ["http://localhost:3000"], "path": ["groups", "list", "1"]}}
+        },
+        {
+          "name": "List Group Members",
+          "request": {"method": "GET", "url": {"raw": "http://localhost:3000/groups/members/1", "host": ["http://localhost:3000"], "path": ["groups", "members", "1"]}}
+        }
+      ]
+    }
+  ]
+} 

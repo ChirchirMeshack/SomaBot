@@ -68,4 +68,9 @@ export default class LessonModel {
     const result = await pool.query('DELETE FROM lessons WHERE id = $1', [id]);
     return (result.rowCount ?? 0) > 0;
   }
+
+  static async getAllLessons() {
+    const result = await pool.query('SELECT * FROM lessons ORDER BY id');
+    return result.rows;
+  }
 } 

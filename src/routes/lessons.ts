@@ -5,6 +5,8 @@ import { formatLessonForWhatsApp } from '../services/whatsappService';
 import LessonScheduleModel from '../models/LessonSchedule';
 import ProgressModel from '../models/Progress';
 import pool from '../utils/database';
+import { checkAndCelebrateMilestones } from '../services/milestoneService';
+import challengeService from '../services/challengeService';
 
 const router = Router();
 
@@ -158,7 +160,21 @@ router.post('/deliver', async (req, res) => {
 router.post('/complete', async (req, res) => {
   try {
     const progress = await ProgressModel.completeLesson(req.body);
-    res.json({ status: 'ok', progress });
+    // Update challenge progress for all active challenges
+    if (req.body.user_id) {
+      const userChallenges = await challengeService.getUserStatus(Number(req.body.user_id));
+      for (const uc of userChallenges) {
+        if (uc.opted_in && !uc.completed) {
+          await challengeService.updateProgress(uc.user_id, uc.challenge_id, 1);
+        }
+      }
+    }
+    // Check for milestone and celebrate if needed
+    let milestoneMessage = null;
+    if (req.body.user_id) {
+      milestoneMessage = await checkAndCelebrateMilestones(Number(req.body.user_id));
+    }
+    res.json({ status: 'ok', progress, milestone: milestoneMessage });
   } catch (err) {
     res.status(500).json({ status: 'error', message: 'Failed to mark lesson as completed' });
   }
