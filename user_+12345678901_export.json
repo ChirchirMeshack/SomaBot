@@ -1,0 +1,29 @@
+{
+  "profile": {
+    "id": 1,
+    "phone": "+12345678901",
+    "name": "New Name",
+    "subscription_tier": "premium",
+    "preferences": {
+      "topics": [
+        "math",
+        "science"
+      ],
+      "language": "en",
+      "reminderTime": "09:00"
+    },
+    "created_at": "2025-07-01T08:24:42.320Z",
+    "status": "active"
+  },
+  "activity": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "action": "login",
+      "metadata": {
+        "ip": "127.0.0.1"
+      },
+      "created_at": "2025-07-01T10:12:29.615Z"
+    }
+  ]
+}

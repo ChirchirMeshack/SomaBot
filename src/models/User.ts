@@ -7,6 +7,7 @@ export interface User {
   subscription_tier?: string;
   preferences?: object;
   created_at?: string;
+  status?: string; // active, inactive, subscribed, etc.
 }
 
 export default class UserModel {
@@ -106,5 +107,53 @@ export default class UserModel {
       values
     );
     return result.rows[0] || null;
+  }
+
+  /**
+   * Set user status by phone number
+   */
+  static async setStatus(phone: string, status: string): Promise<User | null> {
+    const result = await pool.query(
+      'UPDATE users SET status = $1 WHERE phone = $2 RETURNING *',
+      [status, phone]
+    );
+    return result.rows[0] || null;
+  }
+
+  /**
+   * Get user status by phone number
+   */
+  static async getStatus(phone: string): Promise<string | null> {
+    const result = await pool.query('SELECT status FROM users WHERE phone = $1', [phone]);
+    return result.rows[0]?.status || null;
+  }
+
+  /**
+   * Search users by phone, name, status with pagination
+   */
+  static async searchUsers({ phone, name, status, limit = 10, offset = 0 }: { phone?: string; name?: string; status?: string; limit?: number; offset?: number }): Promise<User[]> {
+    const conditions = [];
+    const values = [];
+    let idx = 1;
+    if (phone) {
+      conditions.push(`phone ILIKE $${idx++}`);
+      values.push(`%${phone}%`);
+    }
+    if (name) {
+      conditions.push(`name ILIKE $${idx++}`);
+      values.push(`%${name}%`);
+    }
+    if (status) {
+      conditions.push(`status = $${idx++}`);
+      values.push(status);
+    }
+    let query = 'SELECT * FROM users';
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+    query += ` ORDER BY id DESC LIMIT $${idx++} OFFSET $${idx}`;
+    values.push(limit, offset);
+    const result = await pool.query(query, values);
+    return result.rows;
   }
 } 

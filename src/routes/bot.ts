@@ -2,6 +2,8 @@ import { Router } from 'express';
 import UserModel from '../models/User';
 import logger from '../utils/logger';
 import * as sessionService from '../services/sessionService';
+import { formatMessage, sendMessage } from '../services/whatsappService';
+import UserActivityModel from '../models/UserActivity';
 
 const router = Router();
 
@@ -26,7 +28,14 @@ router.post('/register', async (req, res) => {
     }
     // Create new user
     const user = await UserModel.createUser({ phone });
-    res.json({ status: 'ok', message: 'User registered', user });
+    // Send welcome/onboarding message (mock)
+    const welcomeMsg = formatMessage(phone, "Welcome to SomaBot! Let's get you started.");
+    await sendMessage(welcomeMsg);
+    // Mark onboarding in preferences
+    await UserModel.setPreferences(phone, { onboarding: 'started' });
+    // Log onboarding event
+    await UserActivityModel.logAction(user.id!, 'onboarding_started', {});
+    res.json({ status: 'ok', message: 'User registered and onboarded', user });
   } catch (err) {
     logger.error('Registration error: ' + (err as Error).message);
     res.status(500).json({ status: 'error', message: 'Registration failed' });
