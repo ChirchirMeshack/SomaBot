@@ -67,4 +67,44 @@ export default class UserModel {
     const result = await pool.query('SELECT * FROM users WHERE phone = $1', [phone]);
     return result.rows[0] || null;
   }
+
+  /**
+   * Set user preferences by phone number
+   */
+  static async setPreferences(phone: string, preferences: object): Promise<User | null> {
+    const result = await pool.query(
+      'UPDATE users SET preferences = $1 WHERE phone = $2 RETURNING *',
+      [preferences, phone]
+    );
+    return result.rows[0] || null;
+  }
+
+  /**
+   * Get user preferences by phone number
+   */
+  static async getPreferences(phone: string): Promise<object | null> {
+    const result = await pool.query('SELECT preferences FROM users WHERE phone = $1', [phone]);
+    return result.rows[0]?.preferences || null;
+  }
+
+  /**
+   * Update a user by phone number
+   */
+  static async updateUserByPhone(phone: string, updates: Partial<Omit<User, 'id' | 'created_at' | 'phone'>>): Promise<User | null> {
+    const fields = [];
+    const values = [];
+    let idx = 1;
+    for (const key in updates) {
+      fields.push(`${key} = $${idx}`);
+      values.push((updates as any)[key]);
+      idx++;
+    }
+    if (fields.length === 0) return this.getUserByPhone(phone);
+    values.push(phone);
+    const result = await pool.query(
+      `UPDATE users SET ${fields.join(', ')} WHERE phone = $${idx} RETURNING *`,
+      values
+    );
+    return result.rows[0] || null;
+  }
 } 
