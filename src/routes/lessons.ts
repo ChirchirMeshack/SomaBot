@@ -2,6 +2,7 @@ import { Router } from 'express';
 import LessonModel from '../models/Lesson';
 import * as lessonService from '../services/lessonService';
 import { formatLessonForWhatsApp } from '../services/whatsappService';
+import LessonScheduleModel from '../models/LessonSchedule';
 
 const router = Router();
 
@@ -103,6 +104,48 @@ router.get('/format/:id', async (req, res) => {
     res.json({ status: 'ok', formatted });
   } catch (err) {
     res.status(500).json({ status: 'error', message: 'Failed to format lesson' });
+  }
+});
+
+/**
+ * Schedule a lesson for a user
+ * Expects { user_id, lesson_id, scheduled_time, timezone } in the request body
+ */
+router.post('/schedule', async (req, res) => {
+  try {
+    const scheduled = await LessonScheduleModel.scheduleLesson(req.body);
+    res.json({ status: 'ok', scheduled });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to schedule lesson' });
+  }
+});
+
+/**
+ * Get all scheduled lessons for a user
+ */
+router.get('/schedule/:user_id', async (req, res) => {
+  try {
+    const scheduled = await LessonScheduleModel.getScheduledLessons(Number(req.params.user_id));
+    res.json({ status: 'ok', scheduled });
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to get scheduled lessons' });
+  }
+});
+
+/**
+ * Deliver a lesson to a user via WhatsApp
+ * Expects { user_id, lesson_id } in the request body
+ */
+router.post('/deliver', async (req, res) => {
+  const { user_id, lesson_id } = req.body;
+  if (!user_id || !lesson_id) {
+    return res.status(400).json({ status: 'error', message: 'user_id and lesson_id are required' });
+  }
+  try {
+    const result = await lessonService.deliverLesson(Number(user_id), Number(lesson_id));
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ status: 'error', message: 'Failed to deliver lesson' });
   }
 });
 
