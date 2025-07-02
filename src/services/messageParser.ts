@@ -71,6 +71,7 @@ export function parseWhatsAppMessage(payload: TwilioWebhookPayload): ParsedMessa
  * @returns Normalized phone number (e.g., '+12345678901')
  */
 function normalizePhoneNumber(phone: string): string {
+  if (!phone) return '';
   return phone.replace('whatsapp:', '');
 }
 

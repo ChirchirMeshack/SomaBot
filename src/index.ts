@@ -26,6 +26,7 @@ import express, { Request, Response } from 'express';
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const PORT = 3000;
 
 logger.error('Logger test: This should appear in both console and logs/app.log');

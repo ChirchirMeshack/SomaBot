@@ -1,0 +1,246 @@
+{
+  "info": {
+    "name": "SomaBot Phase 7 - AI Integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "AI Test (Direct OpenAI Call)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": { "raw": "http://localhost:3000/bot/ai-test", "host": ["localhost:3000"], "path": ["bot", "ai-test"] },
+        "body": { "mode": "raw", "raw": "{\n  \"prompt\": \"Explain photosynthesis in simple terms.\"\n}" }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Lesson Question (AI Tutoring)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678901" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "Can you explain the last lesson again?" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Personalized Lesson Question (Preferences)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678902" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "Explain in Swahili." }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Learning Path Recommendation",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678901" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "What should I learn next?" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Generate Quiz",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678901" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "quiz me" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Quiz Answer (AI Feedback)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678901" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "A" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Quiz Answer (My Answer is ...)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678901" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "my answer is B" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Progress Insights",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678901" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "progress report" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Progress Insights (Alternate Phrase)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678901" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "learning insights" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Conversation Flow (Topic Change)",
+      "item": [
+        {
+          "name": "Ask a question",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "From", "value": "whatsapp:+12345678901" },
+                { "key": "To", "value": "whatsapp:+10987654321" },
+                { "key": "Body", "value": "What is a balanced diet?" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Change topic",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "From", "value": "whatsapp:+12345678901" },
+                { "key": "To", "value": "whatsapp:+10987654321" },
+                { "key": "Body", "value": "let's talk about nutrition" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Ask a new question (after topic change)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+            "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "From", "value": "whatsapp:+12345678901" },
+                { "key": "To", "value": "whatsapp:+10987654321" },
+                { "key": "Body", "value": "What are healthy snacks?" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "WhatsApp Webhook - Edge Case: Quiz Request, No Lesson",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678903" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "quiz me" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Edge Case: Progress Insights, No Progress",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678904" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "progress report" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "WhatsApp Webhook - Edge Case: Topic Reset, Context Already Empty",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+        "url": { "raw": "http://localhost:3000/bot/webhook", "host": ["localhost:3000"], "path": ["bot", "webhook"] },
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "From", "value": "whatsapp:+12345678901" },
+            { "key": "To", "value": "whatsapp:+10987654321" },
+            { "key": "Body", "value": "new topic" }
+          ]
+        }
+      }
+    }
+  ]
+} 
